@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/status', (req, res) => {
     res.sendStatus(200);
 });
 
@@ -19,6 +19,15 @@ app.post('/',async(req, res) => {
         res.status(400).json({message: err.message});
     }
 });
+
+app.get("/",async(req,res)=>{
+    try{
+        const result = await client.db('test').collection('demo').find().toArray();
+        res.status(200).json(result);
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+})
 
 
 
