@@ -10,7 +10,7 @@
 <body>
     <div class="w3-panel">
         <div class="w3-row w3-panel">
-            <a href="/create">Create</a>
+            <a href="/create" class="w3-text-green">Create</a>
         </div>
         <div class="w3-row">
             <table class="w3-table-all">
@@ -46,6 +46,7 @@
                     let a = document.createElement('a')
                     a.href = i == 0 ? `/edit/${objectId}` : `/delete/${objectId}`
                     a.innerHTML = i == 0 ? 'Edit' : 'Delete'
+                    a.className = i == 0 ? 'w3-text-blue' : 'w3-text-red'
                     td.appendChild(a)
                     tr.appendChild(td)
                 }
