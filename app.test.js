@@ -31,7 +31,7 @@ describe('POST /', () => {
             .send(person)
             .expect(201)
             .end((err, res) => {
-                assert.equal(res.status, 201);
+                assert.equal(res.body.acknowledged, true);
                 done();
             });
     });

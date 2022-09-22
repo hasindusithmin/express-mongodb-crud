@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
 
 app.post('/',async(req, res) => {
     try {
-        const result = await client.db('test').collection('demo').insertOne(req.body);
+        const {firstname, lastname, email, city, country} = req.body;
+        const result = await client.db('test').collection('demo').insertOne({firstname, lastname, email, city, country});
         res.status(201).json(result);
     } catch (err) {
         res.status(400).json({message: err.message});
