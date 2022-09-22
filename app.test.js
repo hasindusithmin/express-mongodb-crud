@@ -76,50 +76,68 @@ const { faker } = require('@faker-js/faker');
 // })
 
 
-describe("PUT /update/:email", () => {
+// describe("PUT /update/:email", () => {
+//     it("check if status code equal to 202", async () => {
+//         const email = "Tyrel_Herman1@hotmail.com";
+//         const person = {
+//             firstname: faker.name.firstName(),
+//             lastname: faker.name.lastName(),
+//             city: faker.address.city(),
+//             country: faker.address.country()
+//         }
+//         const respone = await supertest(app).put(`/update/${email}`).send(person)
+//         assert.equal(respone.status, 202);
+//         assert.equal(respone.body.modifiedCount,1)
+//     })
+// })
+
+// describe("PUT /update/:email", () => {
+//     it("check request body and database", async () => {
+//         const email = "Tyrel_Herman1@hotmail.com";
+//         const person = {
+//             firstname: faker.name.firstName(),
+//             lastname: faker.name.lastName(),
+//             city: faker.address.city(),
+//             country: faker.address.country()
+//         }
+//         const respone = await supertest(app).put(`/update/${email}`).send(person)
+//         const result = await client.db('test').collection('demo').findOne({email})
+//         assert.equal(result.firstname, person.firstname);
+//         assert.equal(result.lastname, person.lastname);
+//         assert.equal(result.city, person.city);
+//         assert.equal(result.country, person.country);
+//     })
+// })
+
+// describe("PUT /update/:email", () => {
+//     it("check if status code equal to 404", async () => {
+//         const email = "noreply@mail.com";
+//         const person = {
+//             firstname: faker.name.firstName(),
+//             lastname: faker.name.lastName(),
+//             city: faker.address.city(),
+//             country: faker.address.country()
+//         }
+//         const respone = await supertest(app).put(`/update/${email}`).send(person)
+//         assert.equal(respone.status, 404);
+//         assert.equal(respone.body.message, "No such email");
+//     })
+// });
+
+describe("DELETE /delete/:email", () => {
     it("check if status code equal to 202", async () => {
-        const email = "Tyrel_Herman1@hotmail.com";
-        const person = {
-            firstname: faker.name.firstName(),
-            lastname: faker.name.lastName(),
-            city: faker.address.city(),
-            country: faker.address.country()
-        }
-        const respone = await supertest(app).put(`/update/${email}`).send(person)
-        assert.equal(respone.status, 202);
-        assert.equal(respone.body.modifiedCount,1)
+        const email = "Naomi.Roberts@hotmail.com";
+        const respone = await supertest(app).delete(`/delete/${email}`)
+        assert.equal(respone.statusCode,202)
+        assert.equal(respone.body.deletedCount,1)
     })
 })
 
-describe("PUT /update/:email", () => {
-    it("check request body and database", async () => {
-        const email = "Tyrel_Herman1@hotmail.com";
-        const person = {
-            firstname: faker.name.firstName(),
-            lastname: faker.name.lastName(),
-            city: faker.address.city(),
-            country: faker.address.country()
-        }
-        const respone = await supertest(app).put(`/update/${email}`).send(person)
-        const result = await client.db('test').collection('demo').findOne({email})
-        assert.equal(result.firstname, person.firstname);
-        assert.equal(result.lastname, person.lastname);
-        assert.equal(result.city, person.city);
-        assert.equal(result.country, person.country);
-    })
-})
-
-describe("PUT /update/:email", () => {
+describe("DELETE /detele/:email", () => {
     it("check if status code equal to 404", async () => {
-        const email = "noreply@mail.com";
-        const person = {
-            firstname: faker.name.firstName(),
-            lastname: faker.name.lastName(),
-            city: faker.address.city(),
-            country: faker.address.country()
-        }
-        const respone = await supertest(app).put(`/update/${email}`).send(person)
-        assert.equal(respone.status, 404);
-        assert.equal(respone.body.message, "No such email");
+        const email = "noreply@email.com";
+        const respone = await supertest(app).delete(`/delete/${email}`)
+        assert.equal(respone.statusCode,404)
+        assert.equal(respone.body.message,"No such email")
     })
-});
+})

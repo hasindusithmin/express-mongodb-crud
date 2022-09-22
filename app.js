@@ -52,6 +52,16 @@ app.put("/update/:email",async(req,res)=>{
     }
 })
 
+app.delete("/delete/:email",async(req,res)=>{
+    try {
+        const {email} = req.params;
+        const result = await client.db('test').collection('demo').deleteOne({email});
+        if (result.deletedCount == 0) throw new Error('No such email');
+        res.status(202).json(result);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+})
 
 
 app.listen(3000, async() => {
