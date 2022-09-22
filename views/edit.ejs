@@ -60,15 +60,14 @@
             })
                 .then(res => {
                     if (res.status == 202) {
-                        alert('Update success')
                         window.location.href = '/'
                     }
                     else {
-                        const {message} = res.json()
+                        const { message } = res.json()
                         alert(`Update failed\n${message}`)
                     }
                 })
-                
+
         }
     </script>
 </body>

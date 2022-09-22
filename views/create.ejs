@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <form action="" method="post" class="w3-panel">
+        <div>
+            <label for="firstname">firstname</label>
+            <br>
+            <input type="text" name="firstname" id="firstname" size="50" required>
+            <button class="generate" type="button" onclick="generate('firstname')">generate value</button>
+        </div>
+        <div>
+            <label for="lastname">lastname</label>
+            <br>
+            <input type="text" name="lastname" id="lastname" size="50" required>
+            <button class="generate" type="button" onclick="generate('lastname')">generate value</button>
+        </div>
+        <div>
+            <label for="email">email</label>
+            <br>
+            <input type="text" name="email" id="email" size="50" required>
+            <button class="generate" type="button" onclick="generate('email')">generate value</button>
+        </div>
+        <div>
+            <label for="city">city</label>
+            <br>
+            <input type="text" name="city" id="city"  size="50" required>
+            <button class="generate" type="button" onclick="generate('city')">generate value</button>
+        </div>
+        <div>
+            <label for="country">country</label>
+            <br>
+            <input type="text" name="country" id="country" size="50" required>
+            <button class="generate" type="button" onclick="generate('country')">generate value</button>
+        </div>
+        <input type="submit" class="w3-input w3-margin-top">
+    </form>
+    <script>
+        const generate = (key) => {
+            fetch(`/generate/${key}`)
+                .then(res => res.text())
+                .then(data => document.getElementById(key).value = data)
+        }
+        document.querySelector('form').onsubmit = event => {
+            event.preventDefault()
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res=>{
+                    if(res.status == 201) window.location.href = '/'
+                    else {
+                        const {message} = res.json()
+                        alert(message);
+                    }
+                })
+        }
+    </script>
+</body>
+</html>

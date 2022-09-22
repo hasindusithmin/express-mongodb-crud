@@ -6,6 +6,8 @@ const { ObjectId } = require('mongodb');
 
 const app = express();
 
+const port = 3000;
+
 app.set('view engine', 'ejs');
 
 app.use(express.json());
@@ -84,7 +86,7 @@ app.put("/update/:id",async(req,res)=>{
     }
 })
 
-app.get("/delete/:id",async(req,res)=>{
+app.delete("/delete/:id",async(req,res)=>{
     try {
         const {id} = req.params;
         const result = await client.db('test').collection('demo').deleteOne({_id:ObjectId(id)});
@@ -105,12 +107,27 @@ app.get('/edit/:id', async (req, res) => {
     }
 })
 
+app.get('/create', async (req, res) => {
+    res.render('create');
+})
+
+app.get('/delete/:id', async (req, res) => {
+    const {id} = req.params;
+    try {
+        const {id} = req.params;
+        const result = await client.db('test').collection('demo').deleteOne({_id:ObjectId(id)});
+        if (result.deletedCount == 0) throw new Error('No such id');
+        res.redirect('/');
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+})
 
 
-app.listen(3000, async() => {
+app.listen(port, async() => {
     try {
         await client.connect()
-        console.log('Connected to database\nListening on port 3000');
+        console.log(`Connected to database\nListening on port ${port}`);
     } catch (error) {
         console.error(error.message);
     }
