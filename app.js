@@ -10,6 +10,15 @@ app.get('/status', (req, res) => {
     res.sendStatus(200);
 });
 
+app.get("/",async(req,res)=>{
+    try{
+        const result = await client.db('test').collection('demo').find().toArray();
+        res.status(200).json(result);
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+})
+
 app.post('/',async(req, res) => {
     try {
         const {firstname, lastname, email, city, country} = req.body;
@@ -19,15 +28,6 @@ app.post('/',async(req, res) => {
         res.status(400).json({message: err.message});
     }
 });
-
-app.get("/",async(req,res)=>{
-    try{
-        const result = await client.db('test').collection('demo').find().toArray();
-        res.status(200).json(result);
-    }catch(err){
-        res.status(400).json({message: err.message});
-    }
-})
 
 app.get("/get/:email",async(req,res)=>{
     try {
