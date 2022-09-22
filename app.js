@@ -29,6 +29,17 @@ app.get("/",async(req,res)=>{
     }
 })
 
+app.get("/get/:email",async(req,res)=>{
+    try {
+        const {email} = req.params;
+        const result = await client.db('test').collection('demo').findOne({email});
+        if (result == null) throw new Error('No such email');
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+})
+
 
 
 app.listen(3000, async() => {
