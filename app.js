@@ -2,14 +2,22 @@
 const client = require('./db');
 const express = require('express');
 const {faker} = require('@faker-js/faker');
+const { ObjectId } = require('mongodb');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.render('index');
+});
 
 app.get('/status', (req, res) => {
     res.sendStatus(200);
 });
+
 
 app.get('/generate/:keyword', (req, res) => {
 
@@ -34,7 +42,7 @@ app.get('/generate/:keyword', (req, res) => {
     }
 })
 
-app.get("/",async(req,res)=>{
+app.get("/get",async(req,res)=>{
     try{
         const result = await client.db('test').collection('demo').find().toArray();
         res.status(200).json(result);
@@ -53,34 +61,34 @@ app.post('/',async(req, res) => {
     }
 });
 
-app.get("/get/:email",async(req,res)=>{
+app.get("/get/:id",async(req,res)=>{
     try {
-        const {email} = req.params;
-        const result = await client.db('test').collection('demo').findOne({email});
-        if (result == null) throw new Error('No such email');
+        const {id} = req.params;
+        const result = await client.db('test').collection('demo').findOne({_id: ObjectId(id)});
+        if (result == null) throw new Error('No such Id');
         res.status(200).json(result);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
 })
 
-app.put("/update/:email",async(req,res)=>{
+app.put("/update/:id",async(req,res)=>{
     try {
-        const {email} = req.params;
-        const {firstname, lastname, city, country} = req.body;
-        const result = await client.db('test').collection('demo').updateOne({email}, {$set: {firstname, lastname, city, country}});
-        if (result.modifiedCount == 0) throw new Error('No such email');
+        const {id} = req.params;
+        const {firstname, lastname, city,email,country} = req.body;
+        const result = await client.db('test').collection('demo').updateOne({_id:ObjectId(id)}, {$set: {firstname, lastname, city,email,country}});
+        if (result.modifiedCount == 0) throw new Error('No such id');
         res.status(202).json(result);
     } catch (error) {
         res.status(404).json({message: error.message});
     }
 })
 
-app.delete("/delete/:email",async(req,res)=>{
+app.delete("/delete/:id",async(req,res)=>{
     try {
-        const {email} = req.params;
-        const result = await client.db('test').collection('demo').deleteOne({email});
-        if (result.deletedCount == 0) throw new Error('No such email');
+        const {id} = req.params;
+        const result = await client.db('test').collection('demo').deleteOne({_id:ObjectId(id)});
+        if (result.deletedCount == 0) throw new Error('No such id');
         res.status(202).json(result);
     } catch (error) {
         res.status(404).json({message: error.message});

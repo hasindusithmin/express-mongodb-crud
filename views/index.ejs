@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <div class="w3-panel">
+        <div class="w3-row">
+            <table class="w3-table-all">
+                <tr>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>email</th>
+                    <th>city</th>
+                    <th>country</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        fetch('/get')
+        .then(res => res.json())
+        .then(data => {
+            for (const dt of data) {
+                let objectId = ''
+                let tr = document.createElement('tr')
+                for (let[key,value] of Object.entries(dt)) {
+                    if (key == '_id') objectId = value
+                    else {
+                        let td = document.createElement('td')
+                        td.innerHTML = value
+                        tr.appendChild(td)
+                    }
+                }
+                document.querySelector('table').appendChild(tr);
+            }
+        })
+    </script>
+</body>
+</html>
