@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+    <form action="" method="post" class="w3-panel">
+        <% for(let[key,value] of Object.entries(result)) {%>
+            <% if(key=='_id' ) {%>
+                <div>
+                    <label for="<%= key %>">userId</label>
+                    <br>
+                    <input type="text" name="<%= key %>" id="<%= key %>" value="<%= value %>" size="50" disabled>
+                </div>
+                <% } %>
+                    <% if(key !='_id' ) {%>
+                        <div>
+                            <label for="<%= key %>">
+                                <%= key %>
+                            </label>
+                            <br>
+                            <input type="text" name="<%= key %>" id="<%= key %>" placeholder="<%= value %>" size="50"
+                                required>
+                            <button class="same" type="button" onclick="same('<%= key %>')">use same value</button>
+                            <button class="generate" type="button" onclick="generate('<%= key %>')">generate
+                                value</button>
+                        </div>
+                        <% } %>
+                            <%}%>
+                                <input type="submit" class="w3-input w3-margin-top">
+    </form>
+    <script>
+        const same = (key) => {
+            if (key == '_id') return
+            document.getElementById(key).value = document.getElementById(key).placeholder
+        }
+        const generate = (key) => {
+            if (key == '_id') return
+            fetch(`/generate/${key}`)
+                .then(res => res.text())
+                .then(data => document.getElementById(key).value = data)
+        }
+        document.querySelector('form').onsubmit = e => {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const data = Object.fromEntries(formData)
+            const id = window.location.href.split('/').pop()
+            fetch(`/update/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => {
+                    if (res.status == 202) {
+                        alert('Update success')
+                        window.location.href = '/'
+                    }
+                    else {
+                        const {message} = res.json()
+                        alert(`Update failed\n${message}`)
+                    }
+                })
+                
+        }
+    </script>
+</body>
+
+</html>

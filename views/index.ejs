@@ -17,6 +17,8 @@
                     <th>email</th>
                     <th>city</th>
                     <th>country</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </table>
         </div>
@@ -35,6 +37,14 @@
                         td.innerHTML = value
                         tr.appendChild(td)
                     }
+                }
+                for (let i = 0; i < 2; i++) {
+                    let td = document.createElement('td')
+                    let a = document.createElement('a')
+                    a.href = i == 0 ? `/edit/${objectId}` : `/delete/${objectId}`
+                    a.innerHTML = i == 0 ? 'Edit' : 'Delete'
+                    td.appendChild(a)
+                    tr.appendChild(td)
                 }
                 document.querySelector('table').appendChild(tr);
             }

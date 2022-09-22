@@ -105,4 +105,14 @@ app.listen(3000, async() => {
     }
 });
 
+app.get('/edit/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const result = await client.db('test').collection('demo').findOne({_id: ObjectId(id)});
+        res.render('edit', {result});
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+})
+
 module.exports = app;
