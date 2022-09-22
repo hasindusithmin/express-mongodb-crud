@@ -40,6 +40,18 @@ app.get("/get/:email",async(req,res)=>{
     }
 })
 
+app.put("/update/:email",async(req,res)=>{
+    try {
+        const {email} = req.params;
+        const {firstname, lastname, city, country} = req.body;
+        const result = await client.db('test').collection('demo').updateOne({email}, {$set: {firstname, lastname, city, country}});
+        if (result.modifiedCount == 0) throw new Error('No such email');
+        res.status(202).json(result);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+})
+
 
 
 app.listen(3000, async() => {
