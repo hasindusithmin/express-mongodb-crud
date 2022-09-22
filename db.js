@@ -1,10 +1,8 @@
 
-const MongoClinet = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb');
 
-MongoClinet.connect(process.env.DB_URL, { useNewUrlParser: true })
-    .then(client => {
-        console.log('Connected to Database');
-        module.exports = client;
-    }).catch(err => {
-        console.log(err);
-    });
+const url = process.env.DB_URL;
+
+const client = new MongoClient(url, {useNewUrlParser: true, useUnifiedTopology: true});
+
+module.exports = client;
