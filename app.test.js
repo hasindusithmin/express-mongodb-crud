@@ -132,7 +132,7 @@ describe("PUT /update/:id", () => {
 describe("DELETE /delete/:id", () => {
     it("check if status code equal to 202", async () => {
         const id = "632c9ee1615922bd548e717c";
-        const respone = await supertest(app).delete(`/delete/${id}`)
+        const respone = await supertest(app).get(`/delete/${id}`)
         assert.equal(respone.statusCode,202)
         assert.equal(respone.body.deletedCount,1)
     })
@@ -141,7 +141,7 @@ describe("DELETE /delete/:id", () => {
 describe("DELETE /detele/:id", () => {
     it("check if status code equal to 404", async () => {
         const id = "632c9ee1615922bd548e717c";
-        const respone = await supertest(app).delete(`/delete/${id}`)
+        const respone = await supertest(app).get(`/delete/${id}`)
         assert.equal(respone.statusCode,404)
         assert.equal(respone.body.message,"No such id")
     })
